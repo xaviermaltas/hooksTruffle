@@ -184,7 +184,7 @@ function App() {
               if( voter === state.account ){
                 this.container.success('You voted to ' + candidateName +' with ID : ' + candidateId , 'Votation');
                 console.log('The voter ' + voter + ', voted to : ' + candidateName + ' with ID : ' + candidateId);
-                // getVoterStatus(votationService);
+                getVoterStatus(vS);
               }
 
           }
@@ -207,50 +207,45 @@ function App() {
     setState(state => ({ ...state, candidates : candidates }));
   } 
 
-  // async function getCandidates(votationService){
-  //   let candidates = await votationService.getCandidates();
-  //   setState(state => ({ ...state, candidates : candidates }));
+  // const getVoterStatus = async (votationService, account) => {
+  //   let output;
+  //   try {
+  //     const hasVoted = await votationService.hasVoted(account);
+  //     console.log(hasVoted);
+  //     output = hasVoted;
+  //   }
+  //   catch(err){
+  //     console.error(err);
+  //     output = false;
+  //   }
+  //   return output;
   // }
-
-  const getVoterStatus = async (votationService, account) => {
-    let output;
-    try {
-      const hasVoted = await votationService.hasVoted(account);
-      console.log(hasVoted);
-      output = hasVoted;
-    }
-    catch(err){
-      console.error(err);
-      output = false;
-    }
-    return output;
-  }
  
 
-  // async function getVoterStatus(votationService){
-  //   //Getting information if the user has or not voted
+  async function getVoterStatus(votationService){
+    //Getting information if the user has or not voted
     
-  //   const hasVoted = await votationService.hasVoted(state.account);
-  //   // console.log(hasVoted);
-  //   setState(state => ({ ...state, hasVoted : hasVoted }));
+    const hasVoted = await votationService.hasVoted(state.account);
+    // console.log(hasVoted);
+    setState(state => ({ ...state, hasVoted : hasVoted }));
 
-  //   if(state.hasVoted){
-  //       console.log("Has voted");
-  //       let selectedCandidateId = await (votationService.getVoterElection(state.account));
-  //       console.log('Selected Candidate ID: '+ selectedCandidateId);
+    if(state.hasVoted){
+        console.log("Has voted");
+        let selectedCandidateId = await (votationService.getVoterElection(state.account));
+        console.log('Selected Candidate ID: '+ selectedCandidateId);
 
-  //       let candidateArray = state.candidates;
+        let candidateArray = state.candidates;
 
-  //       let selectedCandidateName = await candidateArray[selectedCandidateId-1].name;
-  //       console.log(selectedCandidateName);
+        let selectedCandidateName = await candidateArray[selectedCandidateId-1].name;
+        console.log(selectedCandidateName);
 
-  //       setState(state => ({ ...state, voterStatus : 'You have voted for ' + selectedCandidateName + ' with ID : ' + (selectedCandidateId) }));
-  //   }
-  //   else{
-  //       // console.log("has not voted yet");
-  //     setState(state => ({ ...state, voterStatus : 'Has not voted yet' }));
-  //   }
-  // }
+        setState(state => ({ ...state, voterStatus : 'You have voted for ' + selectedCandidateName + ' with ID : ' + (selectedCandidateId) }));
+    }
+    else{
+        // console.log("has not voted yet");
+      setState(state => ({ ...state, voterStatus : 'Has not voted yet' }));
+    }
+  }
 
   const converter = (web3) =>{
     return(value) => {
@@ -274,7 +269,7 @@ function App() {
 
     setState(state => ({ ...state, voterStatus : 'You have voted for : ' + selectedCandidateName }));
     
-    // await getCandidates();
+    await getCandidates(votationService);
   }
   
 
