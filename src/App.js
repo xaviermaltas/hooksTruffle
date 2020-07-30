@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import logo from './logo.svg';
 import "./App.css";
 import Panel from "./components/Panel/Panel";
-// import Web3 from 'web3';
-import getWeb3 from "./getWeb3.js";
 import ElectionContract from "./election";
 import { VotationService } from "./votationService";
 import detectEthereumProvider from '@metamask/detect-provider';
